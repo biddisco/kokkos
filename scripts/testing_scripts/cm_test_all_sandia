@@ -322,7 +322,7 @@ elif [ "$MACHINE" = "bowman" ]; then
   SKIP_HWLOC=True
   export SLURM_TASKS_PER_NODE=32
 
-  BASE_MODULE_LIST="<COMPILER_NAME>/compilers/<COMPILER_VERSION>"
+  BASE_MODULE_LIST="cmake/3.12.3,<COMPILER_NAME>/compilers/<COMPILER_VERSION>"
 
   OLD_INTEL_BUILD_LIST="Pthread,Serial,Pthread_Serial"
 
@@ -719,6 +719,7 @@ setup_env() {
     module list 2>&1 | grep "$mod" >& /dev/null || return 1
   done
 
+  source /ascldap/users/jsmiles/update_lib.sh $MACHINE
   return 0
 }
 
