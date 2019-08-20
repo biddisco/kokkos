@@ -189,6 +189,8 @@ typedef Threads DefaultHostExecutionSpace;
 //  typedef Qthreads DefaultHostExecutionSpace;
 #elif defined(KOKKOS_ENABLE_HPX)
 typedef Kokkos::Experimental::HPX DefaultHostExecutionSpace;
+#elif defined( KOKKOS_ENABLE_DEFAULT_DEVICE_TYPE_HPX )
+  typedef Kokkos::Experimental::HPX DefaultHostExecutionSpace;
 #elif defined(KOKKOS_ENABLE_SERIAL)
 typedef Serial DefaultHostExecutionSpace;
 #else

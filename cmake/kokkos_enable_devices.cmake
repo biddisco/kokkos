@@ -18,7 +18,6 @@ KOKKOS_CFG_DEPENDS(DEVICES NONE)
 # Put a check in just in case people are using this option
 KOKKOS_DEPRECATED_LIST(DEVICES ENABLE)
 
-
 KOKKOS_DEVICE_OPTION(PTHREAD       OFF HOST "Whether to build Pthread backend")
 IF (KOKKOS_ENABLE_PTHREAD)
   #patch the naming here
@@ -26,6 +25,17 @@ IF (KOKKOS_ENABLE_PTHREAD)
 ENDIF()
 KOKKOS_DEVICE_OPTION(ROCM          OFF DEVICE "Whether to build AMD ROCm backend")
 KOKKOS_DEVICE_OPTION(HPX           OFF DEVICE "Whether to build HPX backend")
+
+#FOREACH(DEV ${KOKKOS_DEVICES})
+#  STRING(TOUPPER ${DEV} UC_NAME)
+#  IF (UC_NAME STREQUAL "OPENMP")
+#    SET(Kokkos_ENABLE_OpenMP On)
+#    MESSAGE(STATUS "Setting Kokkos_ENABLE_OpenMP=ON from Kokkos_DEVICES")
+#  ELSE()
+#    SET(Kokkos_ENABLE_${UC_NAME} On)
+#    MESSAGE(STATUS "Setting Kokkos_ENABLE_${UC_NAME}=ON from Kokkos_DEVICES")
+#  ENDIF()
+#ENDFOREACH()
 
 IF(Trilinos_ENABLE_Kokkos AND Trilinos_ENABLE_OpenMP)
   SET(OMP_DEFAULT ON)

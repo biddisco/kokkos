@@ -107,6 +107,8 @@ class HBWSpace {
   /// parallel using the View's default execution space).
 #if defined(KOKKOS_ENABLE_DEFAULT_DEVICE_TYPE_OPENMP)
   typedef Kokkos::OpenMP execution_space;
+#elif defined( KOKKOS_ENABLE_DEFAULT_DEVICE_TYPE_HPX )
+  typedef Kokkos::Experimental::HPX execution_space;
 #elif defined(KOKKOS_ENABLE_DEFAULT_DEVICE_TYPE_THREADS)
   typedef Kokkos::Threads execution_space;
 //#elif defined( KOKKOS_ENABLE_DEFAULT_DEVICE_TYPE_QTHREADS )
