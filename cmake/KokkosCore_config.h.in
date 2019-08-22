@@ -17,6 +17,10 @@
 #cmakedefine KOKKOS_ENABLE_MEMKIND
 #cmakedefine KOKKOS_ENABLE_LIBRT
 
+#ifdef KOKKOS_ENABLE_PTHREAD
+#define KOKKOS_ENABLE_THREADS
+#endif
+
 #ifndef __CUDA_ARCH__
 #cmakedefine KOKKOS_ENABLE_TM
 #cmakedefine KOKKOS_USE_ISA_X86_64
