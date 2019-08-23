@@ -110,6 +110,8 @@ struct InitArguments {
   int ndevices;
   int skip_device;
   bool disable_warnings;
+  int argc;
+  char **argv;
 
   InitArguments(int nt = -1, int nn = -1, int dv = -1, bool dw = false)
       : num_threads{nt},

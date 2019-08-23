@@ -169,11 +169,7 @@ void initialize_internal(const InitArguments& args) {
                    Kokkos::DefaultExecutionSpace>::value ||
       std::is_same<Kokkos::Experimental::HPX,
                    Kokkos::HostSpace::execution_space>::value) {
-    if (num_threads > 0) {
-      Kokkos::Experimental::HPX::impl_initialize(num_threads);
-    } else {
-      Kokkos::Experimental::HPX::impl_initialize();
-    }
+    Kokkos::Experimental::HPX::impl_initialize(args);
     // std::cout << "Kokkos::initialize() fyi: HPX enabled and initialized" <<
     // std::endl ;
   } else {
@@ -768,6 +764,8 @@ void initialize(int& narg, char* arg[]) {
   arguments.ndevices         = ndevices;
   arguments.skip_device      = skip_device;
   arguments.disable_warnings = disable_warnings;
+  arguments.argc             = narg;
+  arguments.argv             = arg;
   Impl::initialize_internal(arguments);
 }
 
