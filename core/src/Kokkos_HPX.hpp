@@ -111,6 +111,9 @@
 #endif
 
 namespace Kokkos {
+
+    struct InitArguments;
+
 namespace Impl {
 class thread_buffer {
   static constexpr std::size_t m_cache_line_size = 64;
@@ -237,8 +240,7 @@ class HPX {
   }
 
   static int concurrency();
-  static void impl_initialize(int thread_count);
-  static void impl_initialize();
+  static void impl_initialize(const Kokkos::InitArguments& args);
   static bool impl_is_initialized() noexcept;
   static void impl_finalize();
 

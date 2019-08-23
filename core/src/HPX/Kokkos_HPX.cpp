@@ -42,6 +42,7 @@
 */
 
 #include <Kokkos_Macros.hpp>
+#include <Kokkos_Core.hpp>
 
 #ifdef KOKKOS_ENABLE_HPX
 #include <Kokkos_HPX.hpp>
@@ -70,35 +71,7 @@ int HPX::concurrency() {
   }
 }
 
-void HPX::impl_initialize(int thread_count) {
-  hpx::runtime *rt = hpx::get_runtime_ptr();
-  if (rt == nullptr) {
-    std::vector<std::string> config = {
-        "hpx.os_threads=" + std::to_string(thread_count),
-#ifdef KOKKOS_DEBUG
-        "--hpx:attach-debugger=exception",
-#endif
-    };
-    int argc_hpx     = 1;
-    char name[]      = "kokkos_hpx";
-    char *argv_hpx[] = {name, nullptr};
-    hpx::start(nullptr, argc_hpx, argv_hpx, config);
-
-    // NOTE: Wait for runtime to start. hpx::start returns as soon as
-    // possible, meaning some operations are not allowed immediately
-    // after hpx::start. Notably, hpx::stop needs state_running. This
-    // needs to be fixed in HPX itself.
-
-    // Get runtime pointer again after it has been started.
-    rt = hpx::get_runtime_ptr();
-    hpx::util::yield_while(
-        [rt]() { return rt->get_state() < hpx::state_running; });
-
-    m_hpx_initialized = true;
-  }
-}
-
-void HPX::impl_initialize() {
+void HPX::impl_initialize(const InitArguments& args) {
   hpx::runtime *rt = hpx::get_runtime_ptr();
   if (rt == nullptr) {
     std::vector<std::string> config = {
@@ -106,10 +79,13 @@ void HPX::impl_initialize() {
         "--hpx:attach-debugger=exception",
 #endif
     };
+    if (args.num_threads>0) {
+        config.push_back("hpx.os_threads=" + std::to_string(args.num_threads));
+    }
     int argc_hpx     = 1;
     char name[]      = "kokkos_hpx";
     char *argv_hpx[] = {name, nullptr};
-    hpx::start(nullptr, argc_hpx, argv_hpx, config);
+    hpx::start(nullptr, args.argc, args.argv, config);
 
     // NOTE: Wait for runtime to start. hpx::start returns as soon as
     // possible, meaning some operations are not allowed immediately
