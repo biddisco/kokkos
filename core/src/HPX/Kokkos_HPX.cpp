@@ -75,6 +75,8 @@ void HPX::impl_initialize(const InitArguments& args) {
   hpx::runtime *rt = hpx::get_runtime_ptr();
   if (rt == nullptr) {
     std::vector<std::string> config = {
+        "hpx.commandline.aliasing=0",
+        "hpx.commandline.allow_unknown=1",
 #ifdef KOKKOS_DEBUG
         "--hpx:attach-debugger=exception",
 #endif
